@@ -1,36 +1,65 @@
 import Link from 'next/link'
-import { formatDate, getBlogPosts } from 'app/blog/utils'
+import { formatDate, getBlogPosts, type Category } from 'app/blog/utils'
 
-export function BlogPosts() {
-  let allBlogs = getBlogPosts()
+type BlogPostsProps = {
+  category?: Category
+}
+
+const categoryStyles: Record<Category, string> = {
+  design: 'bg-green-100 text-green-700',
+  code: 'bg-blue-100 text-blue-700',
+  games: 'bg-purple-100 text-purple-700',
+}
+
+export function BlogPosts({ category }: BlogPostsProps) {
+  let posts = getBlogPosts()
+
+  if (category) {
+    posts = posts.filter((p) => p.metadata.category === category)
+  }
+
+  posts = posts.sort(
+    (a, b) =>
+      new Date(b.metadata.publishedAt).getTime() -
+      new Date(a.metadata.publishedAt).getTime()
+  )
 
   return (
-    <div>
-      {allBlogs
-        .sort((a, b) => {
-          if (
-            new Date(a.metadata.publishedAt) > new Date(b.metadata.publishedAt)
-          ) {
-            return -1
-          }
-          return 1
-        })
-        .map((post) => (
-          <Link
-            key={post.slug}
-            className="flex flex-col space-y-1 mb-4"
-            href={`/blog/${post.slug}`}
-          >
-            <div className="w-full flex flex-col md:flex-row space-x-0 md:space-x-2">
-              <p className="text-neutral-600 dark:text-neutral-400 w-[100px] tabular-nums">
-                {formatDate(post.metadata.publishedAt, false)}
-              </p>
-              <p className="text-neutral-900 dark:text-neutral-100 tracking-tight">
-                {post.metadata.title}
+    <div className="space-y-6">
+      {posts.map((post) => (
+        <Link
+          key={post.slug}
+          href={`/blog/${post.slug}`}
+          className="block group"
+        >
+          <div className="flex gap-4 items-start">
+            {/* date */}
+            <p className="text-sm text-neutral-500 w-[150px] shrink-0 tabular-nums">
+              {formatDate(post.metadata.publishedAt)}
+            </p>
+
+            {/* content */}
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center gap-3">
+                <span
+                  className={`px-3 py-1 rounded-full text-xs font-medium uppercase tracking-wide ${categoryStyles[post.metadata.category]}`}
+                >
+                  {post.metadata.category}
+                </span>
+
+                <h3 className="text-lg font-medium text-neutral-900 dark:text-neutral-100 group-hover:underline">
+                  {post.metadata.title}
+                </h3>
+              </div>
+
+              {/* summary */}
+              <p className="text-sm text-neutral-600 dark:text-neutral-400 w-full">
+                {post.metadata.summary}
               </p>
             </div>
-          </Link>
-        ))}
+          </div>
+        </Link>
+      ))}
     </div>
   )
 }

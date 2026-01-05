@@ -1,0 +1,92 @@
+---
+title: "Leaflet"
+publishedAt: "2025-09-14"
+category: "code"
+summary: "A community-driven mobile app that centralizes outdoor exploration by combining discovery, social interaction, and gamified experiences."
+---
+
+# Leaflet
+
+Leaflet is a community-driven mobile app designed to centralize outdoor exploration. The project was built during **HackMIT 2025** and focuses on making it easier for people to discover, save, and share outdoor locations with friends in a social, interactive way.
+
+
+## Visual Walkthrough
+
+<video
+  src="/images/leaflet/leaflet-showcase.mov"
+  controls
+  autoPlay
+  loop
+  muted
+  playsInline
+  style={{
+    width: "35%",
+    borderRadius: "12px",
+    marginTop: "16px",
+  }}
+/>
+
+## Inspiration
+
+While visiting a new area over the summer, we noticed how fragmented outdoor information is. Finding trails or hikes meant bouncing between Google Maps, blogs, and scattered review sites — none of which provided a complete or social experience.
+
+There was no single place where users could easily explore outdoor locations, track where friends had been, or share notes and recommendations. That gap inspired Leaflet.
+
+Leaflet aims to make outdoor exploration more connected by turning locations into shared experiences rather than isolated searches.
+
+## What Leaflet Does
+
+Leaflet makes exploring the outdoors simple, social, and engaging. Users can:
+
+- Browse outdoor locations sourced from the National Park Service
+- View detailed information including descriptions and images
+- Rank and compare locations, generating a unique numerical score
+- Follow friends and see their recent adventures
+- Like, comment on, and discuss locations
+- Bookmark places they want to visit
+- Discover nearby trails and parks through an interactive map
+- Compete on a leaderboard that highlights the most active explorers
+
+The goal is to transform outdoor discovery into a shared, living map shaped by the community.
+
+## How We Built It
+
+Leaflet was built as a mobile-first application.
+
+- **Frontend:** Expo Go and React Native
+- **Backend:** Firebase (Firestore Database + Authentication)
+- **Design:** Figma
+- **APIs:** National Park Service API, Google Maps API
+
+We began by mapping out the app’s core flows and visual design in Figma, then implemented a flexible backend using Firebase to support user authentication, relationships, and data storage.
+
+To populate the app with real locations, we fetched and pre-processed data from the National Park Service API. This data was integrated as trails, hikes, and nature spots that users could interact with and rank.
+
+On the frontend, we implemented core features including authentication, ranking, liking, commenting, and social feeds. We also customized Google Maps interactions with unique map pins and visual styling to create a more immersive experience.
+
+## Personal Contribution
+
+**Christian**  
+Focused on design and interactivity. I shaped the app’s visual identity, refined the color palette and theme, added animations (including a custom loading sequence), and designed much of the map interface using custom pins, colors, and interactions. My work emphasized clarity, polish, and an engaging user experience.
+
+## Challenges
+
+One early challenge was solidifying the project idea. We addressed this by reflecting on our own experiences and identifying gaps in the tools we personally used for outdoor exploration.
+
+Technically, this was our first time working with the Google Maps API, and implementing custom map markers proved challenging. Additionally, many of us were new to Firebase, making backend integration and data modeling more complex than expected.
+
+## Accomplishments
+
+We’re proud of building a complete, functional mobile app with a polished frontend and a scalable backend. In particular, we’re proud of how we structured user relationships and location data to support social interaction while keeping the system organized and maintainable.
+
+## What We Learned
+
+This project taught us how to collaborate effectively using version control and divide responsibilities based on individual strengths. It was also our first experience building a full-stack mobile application as a team, which strengthened both our technical and communication skills.
+
+## What’s Next
+
+Future improvements include expanding the friending system (such as discovering friends through contacts), enhancing gamification mechanics, and refining the leaderboard to further encourage exploration and engagement.
+
+## Links
+
+- **Code:** [GitHub Repository](https://github.com/natalie-lim/tree-social-app)

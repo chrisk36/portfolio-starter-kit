@@ -1,9 +1,21 @@
 @import 'tailwindcss';
 
 ::selection {
-  background-color: #47a3f3;
+  background-color: #f4f7fb;
   color: #fefefe;
 }
+
+html {
+  min-width: 360px;
+  font-size: 17px;
+}
+
+@media (min-width: 640px) {
+  html {
+    font-size: 18px;
+  }
+}
+
 
 :root {
   --sh-class: #2d5e9d;

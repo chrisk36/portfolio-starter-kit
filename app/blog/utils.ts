@@ -1,45 +1,75 @@
 import fs from 'fs'
 import path from 'path'
 
-type Metadata = {
+export type Category = 'games' | 'design' | 'code'
+
+export type Metadata = {
   title: string
   publishedAt: string
   summary: string
+  category: Category
   image?: string
 }
 
 function parseFrontmatter(fileContent: string) {
-  let frontmatterRegex = /---\s*([\s\S]*?)\s*---/
-  let match = frontmatterRegex.exec(fileContent)
-  let frontMatterBlock = match![1]
-  let content = fileContent.replace(frontmatterRegex, '').trim()
-  let frontMatterLines = frontMatterBlock.trim().split('\n')
-  let metadata: Partial<Metadata> = {}
+  const frontmatterRegex = /---\s*([\s\S]*?)\s*---/
+  const match = frontmatterRegex.exec(fileContent)
 
-  frontMatterLines.forEach((line) => {
-    let [key, ...valueArr] = line.split(': ')
+  if (!match) {
+    throw new Error('Missing frontmatter in MDX file')
+  }
+
+  const frontMatterBlock = match[1]
+  const content = fileContent.replace(frontmatterRegex, '').trim()
+  const frontMatterLines = frontMatterBlock.trim().split('\n')
+
+  // 1) parse into a simple string map (no TS drama)
+  const raw: Record<string, string> = {}
+  for (const line of frontMatterLines) {
+    const [key, ...valueArr] = line.split(': ')
+    if (!key) continue
     let value = valueArr.join(': ').trim()
-    value = value.replace(/^['"](.*)['"]$/, '$1') // Remove quotes
-    metadata[key.trim() as keyof Metadata] = value
-  })
+    value = value.replace(/^['"](.*)['"]$/, '$1')
+    raw[key.trim()] = value
+  }
 
-  return { metadata: metadata as Metadata, content }
+  // 2) validate category and build strongly typed metadata
+  const category = raw.category
+  if (category !== 'games' && category !== 'design' && category !== 'code') {
+    throw new Error(`Invalid or missing category "${category}" in frontmatter`)
+  }
+
+  const metadata: Metadata = {
+    title: raw.title ?? '',
+    publishedAt: raw.publishedAt ?? '',
+    summary: raw.summary ?? '',
+    category,
+    image: raw.image,
+  }
+
+  // Optional: stronger validation if you want
+  if (!metadata.title) throw new Error('Missing title in frontmatter')
+  if (!metadata.publishedAt) throw new Error('Missing publishedAt in frontmatter')
+  if (!metadata.summary) throw new Error('Missing summary in frontmatter')
+
+  return { metadata, content }
 }
 
-function getMDXFiles(dir) {
+function getMDXFiles(dir: string) {
   return fs.readdirSync(dir).filter((file) => path.extname(file) === '.mdx')
 }
 
-function readMDXFile(filePath) {
-  let rawContent = fs.readFileSync(filePath, 'utf-8')
+function readMDXFile(filePath: string) {
+  const rawContent = fs.readFileSync(filePath, 'utf-8')
   return parseFrontmatter(rawContent)
 }
 
-function getMDXData(dir) {
-  let mdxFiles = getMDXFiles(dir)
+function getMDXData(dir: string) {
+  const mdxFiles = getMDXFiles(dir)
+
   return mdxFiles.map((file) => {
-    let { metadata, content } = readMDXFile(path.join(dir, file))
-    let slug = path.basename(file, path.extname(file))
+    const { metadata, content } = readMDXFile(path.join(dir, file))
+    const slug = path.basename(file, path.extname(file))
 
     return {
       metadata,
@@ -55,9 +85,11 @@ export function getBlogPosts() {
 
 export function formatDate(date: string, includeRelative = false) {
   let currentDate = new Date()
+
   if (!date.includes('T')) {
     date = `${date}T00:00:00`
   }
+
   let targetDate = new Date(date)
 
   let yearsAgo = currentDate.getFullYear() - targetDate.getFullYear()

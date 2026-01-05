@@ -1,0 +1,136 @@
+---
+title: "SudoBuddy"
+publishedAt: "2025-12-14"
+category: "code"
+summary: "An on-device TinyML Sudoku assistant that lets users verify handwritten puzzles using camera-based digit recognition and voice commands."
+image: "/images/sudobuddy/thumbnail.png"
+---
+
+# SudoBuddy
+
+SudoBuddy is an on-device TinyML assistant designed to bridge the gap between
+paper-based Sudoku solving and digital verification tools. While most Sudoku
+helpers exist only on computers or mobile apps, SudoBuddy allows users to check
+their handwritten work in real time without leaving the physical puzzle.
+
+Using an embedded camera, SudoBuddy captures a Sudoku grid directly from paper,
+segments the board, and classifies each digit locally. A keyword-spotting (KWS)
+model enables hands-free interaction — users can issue voice commands such as
+**“start”** to capture a board or **“check”** to verify their solution, making the
+experience intuitive and interruption-free.
+
+All processing runs entirely on-device, prioritizing low latency, privacy, and
+reliability under strict memory constraints. The result is a seamless way to
+validate progress on paper puzzles using embedded intelligence rather than a
+traditional screen-based interface.
+
+## Demo
+
+<div style={{ position: "relative", paddingTop: "56.25%" }}>
+  <iframe
+    src="https://www.youtube.com/embed/H_KeABiEeUw"
+    style={{
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      border: 0,
+    }}
+    allow="autoplay; encrypted-media"
+    allowFullScreen
+  />
+</div>
+
+
+## What I Built
+
+- On-device digit recognition pipeline using a custom convolutional neural network
+- Camera-based grid capture, preprocessing, and normalization
+- Sudoku board segmentation with per-cell digit classification
+- Keyword-spotting (KWS) system for hands-free voice control
+- End-to-end inference pipeline optimized for memory and latency constraints
+
+## How It Works
+
+SudoBuddy is built around a simple, voice-driven workflow that mirrors how users
+naturally solve Sudoku puzzles on paper, while providing digital verification
+behind the scenes.
+
+### Voice Interaction (KWS)
+
+A lightweight keyword-spotting model enables hands-free control using a small
+set of spoken commands:
+
+- **“Start”** — captures the current Sudoku board and initializes the internal
+  grid representation.
+- **“Check”** — evaluates the current board state and determines whether the
+  solution is valid.
+- Additional commands can be added without modifying the core vision pipeline.
+
+This interaction model allows users to remain focused on the physical puzzle
+without switching to a screen or manually entering digits.
+
+### Board Capture and Digit Recognition
+
+When a capture command is triggered, SudoBuddy:
+
+1. Captures an image of the Sudoku grid using an embedded camera
+2. Applies preprocessing to normalize lighting and orientation
+3. Segments the grid into individual cells
+4. Classifies each digit using a custom CNN running entirely on-device
+
+All inference is performed locally, ensuring low latency and preserving user
+privacy.
+
+### Solution Validation
+
+After digit classification, the system evaluates the board according to Sudoku
+constraints:
+
+- Each **row**, **column**, and **subgrid** is checked for duplicate values
+- Incomplete or uncertain cells are tracked separately
+- The board is classified as a **valid solution**, **partial but consistent
+  state**, or **invalid configuration**
+
+During a “check” command, the current handwritten board is compared against
+these constraints, allowing users to quickly confirm whether their solution is
+correct or contains errors.
+
+### Design Philosophy
+
+Rather than solving the puzzle for the user, SudoBuddy is intentionally designed
+as a verification tool. This preserves the cognitive challenge of paper-based
+solving while offering the reassurance and accuracy of digital validation.
+
+## Technical Challenges
+
+- Working within strict memory and compute limits on embedded hardware
+- Achieving reliable digit classification under varied lighting conditions
+- Designing a fast preprocessing pipeline suitable for real-time use
+- Balancing model accuracy with on-device performance and latency
+- Integrating vision and voice pipelines into a cohesive user experience
+
+## Tech Stack
+
+**Model Training**
+- PyTorch for CNN and keyword-spotting model development
+- Python for dataset preparation, training, and evaluation
+
+**Deployment & Inference**
+- TensorFlow Lite Micro for on-device inference
+- TinyML workflow with quantization and memory optimization
+- C++ for embedded deployment and real-time processing
+
+**Hardware**
+- ESP32-based microcontroller
+- Embedded camera module
+
+**Other**
+- Custom CNN architecture for digit classification
+- On-device keyword spotting (KWS) for voice commands
+
+## Links
+
+- **Code:** [GitHub Repository](https://github.com/chrisk36/SudoBuddy)
+- **Video Demo:** [Watch on YouTube](https://youtu.be/H_KeABiEeUw)
