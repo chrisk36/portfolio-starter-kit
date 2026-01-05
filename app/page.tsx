@@ -5,7 +5,7 @@ export default function Page() {
     <section>
       {/* Short, direct intro */}
       <h1 className="mb-4 text-3xl font-semibold tracking-tight">
-        Hi, I’m Christian.
+        Hi, I’m Christian!
       </h1>
 
       <p className="mb-4 text-lg text-neutral-800 dark:text-neutral-200">
