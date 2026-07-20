@@ -1,36 +1,40 @@
-import Link from 'next/link'
+'use client'
 
-const navItems = {
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+
+export const navItems = {
   '/': { name: 'home' },
   '/code': { name: 'code' },
   '/design': { name: 'design' },
-  '/games': { name: 'games' },
 }
 
-
 export function Navbar() {
+  const pathname = usePathname()
+  if (pathname === '/') return null  // home uses SpaceHero's built-in nav
+
   return (
-    <aside className="-ml-[8px] mb-16 tracking-tight">
-      <div className="lg:sticky lg:top-20">
-        <nav
-          className="flex flex-row items-start relative px-0 pb-0 fade md:overflow-auto scroll-pr-6 md:relative"
-          id="nav"
-        >
-          <div className="flex flex-row space-x-0 pr-10">
-            {Object.entries(navItems).map(([path, { name }]) => {
-              return (
-                <Link
-                  key={path}
-                  href={path}
-                  className="transition-all hover:text-neutral-800 dark:hover:text-neutral-200 flex align-middle relative py-1 px-2 m-1"
-                >
-                  {name}
-                </Link>
-              )
-            })}
-          </div>
-        </nav>
-      </div>
-    </aside>
+    <nav className="flex justify-end gap-3 mb-10">
+      <Link
+        href="/code"
+        className={`text-sm font-semibold px-4 py-2 rounded-lg transition-colors ${
+          pathname.startsWith('/code')
+            ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
+            : 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100'
+        }`}
+      >
+        Code
+      </Link>
+      <Link
+        href="/design"
+        className={`text-sm font-semibold px-4 py-2 rounded-lg transition-colors ${
+          pathname.startsWith('/design')
+            ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300'
+            : 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100'
+        }`}
+      >
+        Design
+      </Link>
+    </nav>
   )
 }

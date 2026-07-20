@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 
-export type Category = 'games' | 'design' | 'code'
+export type Category = 'design' | 'code'
 
 export type Metadata = {
   title: string
@@ -9,6 +9,7 @@ export type Metadata = {
   summary: string
   category: Category
   image?: string
+  video?: string
 }
 
 function parseFrontmatter(fileContent: string) {
@@ -35,7 +36,7 @@ function parseFrontmatter(fileContent: string) {
 
   // 2) validate category and build strongly typed metadata
   const category = raw.category
-  if (category !== 'games' && category !== 'design' && category !== 'code') {
+  if (category !== 'design' && category !== 'code') {
     throw new Error(`Invalid or missing category "${category}" in frontmatter`)
   }
 
@@ -45,6 +46,7 @@ function parseFrontmatter(fileContent: string) {
     summary: raw.summary ?? '',
     category,
     image: raw.image,
+    video: raw.video,
   }
 
   // Optional: stronger validation if you want

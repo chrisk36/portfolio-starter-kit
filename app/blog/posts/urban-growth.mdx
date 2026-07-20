@@ -1,0 +1,80 @@
+---
+title: "Predicting Urban Economic Growth from Neighborhood Structure"
+publishedAt: "2026-05-01"
+category: "code"
+summary: "A big-data analytics project linking Census, OpenStreetMap, and NASA nighttime-light satellite data to model how neighborhood physical structure predicts economic growth across three U.S. metros."
+image: "/images/urban-growth/ntl-growth-map.png"
+---
+
+# Predicting Urban Economic Growth from Neighborhood Structure
+
+Team project for **CIS 5450: Big Data Analytics** at Penn, with Cindy Li, Sarah Ling, and Tianyi Gu.
+
+## Research Question
+
+To what extent can a neighborhood's physical structure — road density, building density, land-use mix, points of interest — explain or predict its economic growth over time?
+
+## What We Built
+
+We built a ~60,000-row tract-year panel dataset (2016–2024) across Philadelphia, Boston, and New York City by linking four independently sourced datasets:
+
+- **U.S. Census TIGER/Line** tract boundaries (spatial base unit, keyed by GEOID)
+- **OpenStreetMap** (via the Ohsome Historical API) for roads, buildings, land use, and points of interest
+- **NASA VIIRS Black Marble nighttime-light** satellite composites, used as a proxy for economic activity
+- **U.S. Census population** data, used as a density control
+
+Linking meant spatially joining raw OSM geometries to census tracts with `geopandas.sjoin`, computing zonal statistics on the VIIRS rasters with `rasterstats`, and merging everything into one panel via a DuckDB SQL join on `(GEOID, year)`.
+
+<img
+  src="/images/urban-growth/ntl-growth-map.png"
+  alt="Folium map of nighttime-light growth across the Philadelphia metro"
+  style={{ width: "100%", borderRadius: "10px" }}
+/>
+
+## Feature Engineering
+
+From the raw geometries we engineered six families of urban-structure features: road density, intersection density, building count/footprint area, land-use mix (Shannon entropy), POI diversity/count, and year-over-year change features including a lagged nighttime-light term. We used entropy rather than raw counts so the features capture *diversity*, not just volume — a tract with 100 restaurants scores low, a tract with a balanced mix of restaurants, shops, parks, and schools scores high.
+
+## Modeling
+
+We compared a linear baseline (OLS / Ridge / Lasso) against nonlinear tree-based models:
+
+<Table
+  data={{
+    headers: ["Model", "Test R²", "Test RMSE"],
+    rows: [
+      ["OLS / Ridge / Lasso", "~0.214", "~0.071"],
+      ["XGBoost (Optuna-tuned)", "0.290", "0.067"],
+      ["Random Forest", "0.299", "0.067"],
+    ],
+  }}
+/>
+
+The ~7-point R² gain from tree-based models over linear regression confirmed meaningful nonlinearities and feature interactions. Random Forest slightly outperformed XGBoost on test data but showed more train/test overfitting, typical for deep forests.
+
+<img
+  src="/images/urban-growth/shap-building-count.png"
+  alt="SHAP dependence plot for building count"
+  style={{ width: "70%", borderRadius: "10px" }}
+/>
+
+SHAP analysis on the XGBoost model showed lagged nighttime-light level was the strongest predictor (mean reversion), with building count and land-use/POI entropy contributing smaller, context-dependent effects.
+
+## Feature Selection
+
+We used two complementary approaches to keep the feature space efficient: pairwise correlation dropping (removing any feature pair with |r| > 0.9, fit on training data only to avoid leakage — no pairs exceeded that threshold) and LassoCV regularization, which drove uninformative coefficients toward zero without eliminating most features, confirming the feature set carried real signal.
+
+## Takeaways
+
+- Time and location both matter — the model needed year and metro fixed effects to account for COVID-era volatility and cross-city differences.
+- Most individual structural features are weak predictors on their own; the dominant signal comes from the lagged economic baseline (mean reversion), with structure adding smaller marginal effects.
+- Results are associative, not causal, and limited to three metros — expanding coverage and adding causal methods (e.g. diff-in-diff) are natural next steps.
+
+## Full Presentation
+
+<video
+  src="/images/urban-growth/cis5450-demo.mp4"
+  controls
+  playsInline
+  style={{ width: "100%", borderRadius: "12px", marginTop: "16px" }}
+/>

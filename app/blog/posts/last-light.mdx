@@ -1,10 +1,110 @@
 ---
 title: "Last Light"
 publishedAt: "2025-12-02"
-category: "games"
-summary: "A first-person prototype with dynamic lighting states that drive enemy behavior and player decision-making."
+category: "design"
+summary: "A color-reactive first-person Unreal Engine 5 game where the Sun dictates danger."
+image: "/images/last-light/last-light-still.jpg"
+video: "/images/last-light/last-light-demo.mp4"
 ---
 
 # Last Light
 
-Coming soon.
+**Last Light** is a first-person UE5 project built around a dynamic global lighting system.  
+The Sun cycles through different emissive color states that drive enemy behavior, environmental effects, movement constraints, and UI feedback.
+
+**Controls:**  
+- **WASD** to move  
+- **Hold Left Mouse** to sprint  
+- Mouse to look  
+
+<video 
+  src="/images/last-light/last-light-demo.mp4" 
+  autoPlay 
+  loop 
+  muted 
+  controls 
+  style={{ width: "100%", borderRadius: "8px" }} 
+/>
+
+
+## Core Mechanics
+
+### Dynamic Sun System
+The Sun actor uses a SunState enum and a global event dispatcher.  
+Each color triggers a different gameplay state:
+
+#### Green — Exploration
+- Safe state  
+- Stamina regenerates  
+- Eye Monster dormant  
+
+#### Yellow — Warning
+- Eye Monster begins tracking  
+- Shadows shift  
+- Stamina drains faster  
+
+#### Red — Survival
+- Eye Monster teleports aggressively  
+- Devils spawn  
+- Lighting flickers with intense audio cues  
+
+#### Blue — Guidance
+- Angels spawn  
+- Hidden paths briefly revealed  
+
+
+## Movement & Stamina
+
+### Sprinting
+- **Hold Left Mouse** to sprint  
+- Speed increases tension in Yellow/Red states  
+- Stamina drains faster in danger  
+- Low stamina produces visual distortion  
+
+
+## AI Systems
+
+### Eye Monster
+- Navmesh pathfinding  
+- Teleportation during Red state  
+- Line-of-sight detection  
+- Aggression scales with Sun state  
+
+### Devils
+- Spawn during Red  
+- Stationed near map nodes  
+
+### Angels
+- Touch an angel to get +1 point
+- They get scared and turn invisible if you get hurt by a demon, but you can still follow their glow to catch them
+
+## Environment & Visual Design
+
+### Dynamic Materials
+- Emissive and Fresnel effects react to Sun color  
+
+### Niagara Effects
+- Pulse, fog, and flicker variations  
+- Red state intensifies effects  
+
+### Lighting
+- Fully event-driven  
+- No tick-based polling  
+
+## UI & Player Feedback
+
+### HUD
+- Stamina bar  
+- Sun state indicator  
+- Warning icons  
+
+### Menus
+- Main menu (Play / Instructions / Exit)  
+- End screen on defeat or escape  
+
+## Future Improvements
+
+- Larger explorable map  
+- Stealth mechanics dependent on lighting  
+- Interactable objects and puzzles  
+- Narrative events tied to Sun cycles  

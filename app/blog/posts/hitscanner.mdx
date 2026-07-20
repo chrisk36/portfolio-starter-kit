@@ -1,0 +1,51 @@
+---
+title: "HitScanner — A Music Analytics Platform"
+publishedAt: "2026-05-08"
+category: "code"
+summary: "A full-stack database systems project connecting Spotify audio features with 65+ years of Billboard chart data, with query-optimized backend infrastructure deployed live on Vercel/Supabase."
+image: "/images/hitscanner/hitscanner-screenshot.jpg"
+video: "/images/hitscanner/hitscanner-demo.mp4"
+---
+
+# HitScanner — A Music Analytics Platform
+
+Team project for **CIS 4500: Database Systems** at Penn (Group 48), with Juan, Brian, and Ishani. Live at [hit-scanner.xyz](https://hit-scanner.xyz).
+
+## The Problem
+
+Artists, producers, and listeners often want to understand what makes a song successful, but audio characteristics and chart performance live on separate platforms and music trends shift too much to compare by hand.
+
+## What We Built
+
+HitScanner is an interactive analytics platform that joins **Spotify audio features** (danceability, energy, valence, tempo, ~114,000 songs across 114 genres) with the **Billboard Hot 100** (weekly chart entries from 1958–2024, ~330,000 records, 24,000+ unique songs), so users can search songs and artists, see chart history alongside audio data, and explore how hit-song characteristics have shifted across decades and genres.
+
+The product ships five drill-down categories — all-time dance hits, top charting, big movers, song analysis, and sound by the decade — backed by 10 optimized queries, including tools like a similar-song finder, "hit-sounding flops," and a "would this chart?" predictor.
+
+<video
+  src="/images/hitscanner/hitscanner-demo.mp4"
+  controls
+  playsInline
+  style={{ width: "100%", borderRadius: "12px" }}
+/>
+
+## Data Cleaning & Schema
+
+Song titles and artist names arrived inconsistently formatted across the two source datasets — mixed punctuation, casing, and multi-artist credits (`feat.`, `&`, `with`, non-Latin separators). We normalized names with regex-based parsing, generated unique `song_key` identifiers to match songs across datasets, and built out a normalized relational schema in **3NF**: separate tables for artists, songs (+ audio features), the song–artist many-to-many mapping, genres, song–genre mapping, and chart history — de-duplicated before export.
+
+## Query Optimization
+
+The core engineering challenge was serving expensive cross-table joins fast. For each optimized query we moved from ad hoc joins over raw tables to a pipeline of: preprocessing into 3NF, **materialized views** for expensive joins on largely static data, **indexing** in place of sequential search, and **RPC functions written in SQL** (instead of building queries client-side via the JS SDK) so query logic runs server-side in Postgres.
+
+## Deployment & Testing
+
+The app is deployed live on Vercel at a custom domain, connected to GitHub for continuous deployment, with Supabase environment variables configured for the production environment. We added unit tests for each API endpoint, canaries to monitor the production environment, and query response-time monitoring on Supabase.
+
+## Tech Stack
+
+- **Frontend:** Next.js / React, deployed on Vercel
+- **Backend:** Supabase (Postgres), SQL RPC functions, materialized views, indexing
+- **Data:** Spotify Tracks Dataset, Billboard Hot 100 Dataset (pandas / numpy / regex cleaning pipeline)
+
+## Links
+
+- **Live site:** [hit-scanner.xyz](https://hit-scanner.xyz)

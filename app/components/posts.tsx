@@ -6,9 +6,8 @@ type BlogPostsProps = {
 }
 
 const categoryStyles: Record<Category, string> = {
-  design: 'bg-green-100 text-green-700',
+  design: 'bg-purple-100 text-purple-700',
   code: 'bg-blue-100 text-blue-700',
-  games: 'bg-purple-100 text-purple-700',
 }
 
 export function BlogPosts({ category }: BlogPostsProps) {
