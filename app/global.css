@@ -175,19 +175,30 @@ table {
   text-wrap: balance;
 }
 
+/* ===== Space backdrop (fixed behind the whole page) ===== */
+
+.sp-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(165deg, #12102b 0%, #171442 55%, #1a1550 100%);
+  pointer-events: none;
+}
+
 /* ===== Space Hero ===== */
 
 .sp-hero {
   position: relative;
+  z-index: 1;
   left: 50%;
   transform: translateX(-50%);
   width: 100vw;
   height: 100vh;
   min-height: 700px;
   margin-top: -2.5rem;
-  margin-bottom: -2.5rem;
+  margin-bottom: 0;
   overflow: hidden;
-  background: linear-gradient(165deg, #12102b 0%, #171442 55%, #1a1550 100%);
+  background: transparent; /* the fixed .sp-backdrop shows through the transparent canvas */
   color: var(--sp-text);
 }
 
@@ -208,14 +219,14 @@ table {
 .sp-star-field {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 0; /* behind the 3D canvas so opaque objects (TVs) occlude the stars */
   pointer-events: none;
 }
 
 .sp-star {
   position: absolute;
   border-radius: 50%;
-  background: #fff;
+  background: #efe9fb; /* soft off-white — easier on the eyes than pure white */
   animation: spTwinkle 3s ease-in-out infinite;
 }
 
@@ -327,7 +338,7 @@ table {
   left: 5vw;
   top: 72px;
   z-index: 3;
-  max-width: 480px;
+  max-width: min(480px, 46vw); /* narrows on smaller screens so it needs less clearing */
 }
 
 @media (max-width: 640px) {
@@ -340,7 +351,7 @@ table {
 
 .sp-eyebrow {
   letter-spacing: 0.3em;
-  font-size: 0.7rem;
+  font-size: clamp(0.6rem, 1.3vw, 0.7rem);
   color: var(--sp-text2);
   margin: 0 0 12px;
   text-transform: uppercase;
@@ -348,24 +359,60 @@ table {
 }
 
 .sp-title {
-  font-size: clamp(2.4rem, 6vw, 3.4rem);
+  font-size: clamp(1.9rem, 5.2vw, 3.2rem);
   font-weight: 700;
   letter-spacing: -0.02em;
   margin: 0 0 12px;
   line-height: 1.1;
-  color: #fff;
-  text-shadow: 0 0 60px rgba(179, 155, 255, 0.35), 0 2px 4px rgba(0, 0, 0, 0.6);
+  color: #f4f1fb; /* soft off-white instead of pure white */
+  text-shadow: 0 0 60px rgba(179, 155, 255, 0.3), 0 2px 4px rgba(0, 0, 0, 0.55);
 }
 
 .sp-sub {
   color: var(--sp-text2);
-  font-size: 0.95rem;
+  font-size: clamp(0.8rem, 1.9vw, 0.95rem);
+  margin: 0 0 14px;
+}
+
+/* ===== Contact links (under the name) ===== */
+.sp-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px 10px;
   margin: 0 0 18px;
 }
 
+.sp-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px;
+  border-radius: 8px;
+  font-size: clamp(0.72rem, 1.5vw, 0.8rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  color: rgba(245, 243, 255, 0.82);
+  border: 1px solid rgba(245, 243, 255, 0.16);
+  background: rgba(245, 243, 255, 0.05);
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.sp-link svg {
+  width: 15px;
+  height: 15px;
+  fill: currentColor;
+}
+
+.sp-link:hover {
+  color: #fff;
+  border-color: rgba(179, 155, 255, 0.5);
+  background: rgba(179, 155, 255, 0.12);
+}
+
 .sp-bio {
-  font-size: 0.9rem;
-  line-height: 1.65;
+  font-size: clamp(0.78rem, 1.7vw, 0.9rem);
+  line-height: 1.6;
   color: rgba(245, 243, 255, 0.78);
   margin: 0;
 }
@@ -386,27 +433,325 @@ table {
   border-radius: 10px;
 }
 
-
-
-.sp-model-credit {
+/* ===== Scroll cue (bottom of the hero) — a clear, always-on-top pill ===== */
+.sp-scroll-cue {
   position: absolute;
-  bottom: 14px;
-  right: 18px;
-  font-size: 0.62rem;
-  color: rgba(245, 243, 255, 0.28);
-  z-index: 4;
-  margin: 0;
-  letter-spacing: 0.03em;
-}
-
-.sp-model-credit a {
-  color: inherit;
+  z-index: 6; /* above all hero content so nothing overlaps it */
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  max-width: calc(100vw - 32px);
+  padding: 10px 20px;
+  border-radius: 999px;
   text-decoration: none;
+  color: #f4f1fb;
+  background: rgba(12, 10, 30, 0.62);
+  border: 1px solid rgba(179, 155, 255, 0.4);
+  backdrop-filter: blur(8px);
+  font-size: clamp(0.76rem, 1.7vw, 0.88rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  box-shadow: 0 6px 22px rgba(8, 5, 24, 0.45);
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
 }
 
-.sp-model-credit a:hover {
-  color: rgba(245, 243, 255, 0.55);
+.sp-scroll-cue:hover {
+  color: #fff;
+  border-color: rgba(179, 155, 255, 0.75);
+  background: rgba(23, 20, 52, 0.72);
 }
+
+.sp-scroll-arrow {
+  font-size: 1.05rem;
+  animation: spBounce 1.6s ease-in-out infinite;
+}
+
+@keyframes spBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.55; }
+  50%      { transform: translateY(5px); opacity: 1; }
+}
+
+/* ===== Projects section (scroll down) ===== */
+.sp-projects {
+  position: relative;
+  z-index: 1;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  padding: 56px 5vw 96px;
+  color: var(--sp-text);
+  /* Scrim: transparent at the top (blends from the hero) → deepening veil so cards read,
+     while the fixed starfield still shows faintly through. */
+  background: linear-gradient(
+    to bottom,
+    rgba(12, 10, 30, 0) 0,
+    rgba(12, 10, 30, 0.62) 96px,
+    rgba(11, 9, 26, 0.8) 100%
+  );
+}
+
+.sp-projects-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.sp-projects-eyebrow {
+  letter-spacing: 0.3em;
+  font-size: clamp(0.6rem, 1.3vw, 0.7rem);
+  color: var(--sp-text2);
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  font-family: var(--font-geist-mono);
+}
+
+.sp-projects-title {
+  font-size: clamp(1.7rem, 4.4vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #f4f1fb;
+  margin: 0 0 6px;
+}
+
+.sp-projects-sub {
+  color: var(--sp-text2);
+  font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+  margin: 0 0 34px;
+}
+
+.sp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 22px;
+}
+
+.sp-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 14px;
+  overflow: hidden;
+  text-decoration: none;
+  background: rgba(23, 20, 52, 0.55);
+  border: 1px solid rgba(245, 243, 255, 0.1);
+  backdrop-filter: blur(4px);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.sp-card-media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #12102b;
+}
+
+.sp-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.sp-card-ph {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1b1650, #101030);
+  color: rgba(245, 243, 255, 0.22);
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.sp-card-cat {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: var(--font-geist-mono);
+  color: #fff;
+  background: rgba(12, 10, 30, 0.55);
+  backdrop-filter: blur(4px);
+}
+
+.sp-card-design .sp-card-cat { background: rgba(179, 155, 255, 0.9); color: #1a1240; }
+.sp-card-code .sp-card-cat { background: rgba(111, 180, 255, 0.9); color: #0a2140; }
+
+.sp-card-body { padding: 15px 17px 19px; }
+
+.sp-card-title {
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: #f4f1fb;
+  margin: 0 0 6px;
+  line-height: 1.25;
+}
+
+.sp-card-desc {
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: rgba(245, 243, 255, 0.6);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.sp-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(179, 155, 255, 0.45);
+  box-shadow: 0 14px 36px rgba(8, 5, 24, 0.55);
+}
+
+.sp-card-code:hover { border-color: rgba(111, 180, 255, 0.5); }
+.sp-card:hover .sp-card-media img { transform: scale(1.06); }
+
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .sp-scroll-arrow { animation: none; }
+  .sp-card, .sp-card-media img { transition: none; }
+}
+
+/* ===== "Back to projects" nav (non-home pages) ===== */
+.sp-navback {
+  position: relative;
+  z-index: 2; /* above the fixed backdrop */
+  max-width: 720px;
+  margin: 0 auto 18px; /* centered, aligned with the article column */
+}
+
+.sp-navback-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 15px;
+  border-radius: 9px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: #f4f1fb;
+  /* dark pill → readable over both the space backdrop and any light page */
+  background: rgba(12, 10, 30, 0.72);
+  border: 1px solid rgba(245, 243, 255, 0.16);
+  backdrop-filter: blur(6px);
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.sp-navback-link:hover {
+  color: #fff;
+  border-color: rgba(179, 155, 255, 0.55);
+  background: rgba(23, 20, 52, 0.85);
+}
+
+/* ===== Interior side decor (fixed → identical on every page, any length) ===== */
+.sp-decor-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* above the backdrop starfield, below the article panel */
+  pointer-events: none;
+  display: none; /* only shown where there are side gutters (wide screens) */
+}
+
+@media (min-width: 1200px) {
+  .sp-decor-canvas { display: block; }
+}
+
+/* ===== Project detail article — centered, readable column (decor lives in the gutters) ===== */
+.sp-article-wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 30px clamp(22px, 3vw, 40px) 48px;
+  border-radius: 16px;
+  color: var(--sp-text);
+  /* opaque enough that nothing behind the column shows through the text */
+  background: rgba(12, 10, 30, 0.72);
+  border: 1px solid rgba(245, 243, 255, 0.08);
+  backdrop-filter: blur(3px);
+}
+
+.sp-article-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 12px;
+  font-family: var(--font-geist-mono);
+  font-size: 0.8rem;
+  color: var(--sp-text2);
+}
+
+.sp-article-cat {
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.sp-article-cat-design { background: rgba(179, 155, 255, 0.9); color: #1a1240; }
+.sp-article-cat-code { background: rgba(111, 180, 255, 0.9); color: #0a2140; }
+
+.sp-article-title {
+  font-size: clamp(1.55rem, 3.2vw, 2.1rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.18;
+  color: #f4f1fb;
+  margin: 0 0 22px;
+}
+
+/* Light-theme the MDX prose so it reads over the dark space backdrop, regardless of the
+   viewer's system color scheme. */
+.prose.sp-prose p,
+.prose.sp-prose li {
+  color: rgba(245, 243, 255, 0.82);
+}
+.prose.sp-prose h1,
+.prose.sp-prose h2,
+.prose.sp-prose h3,
+.prose.sp-prose h4 {
+  color: #f4f1fb;
+}
+.prose.sp-prose strong {
+  color: #fff;
+}
+.prose.sp-prose a {
+  color: #8fc0ff;
+  text-decoration-color: rgba(143, 192, 255, 0.5);
+}
+.prose.sp-prose code {
+  background: rgba(245, 243, 255, 0.09);
+  color: #e7e1fb;
+}
+.prose.sp-prose pre {
+  background: rgba(10, 8, 26, 0.7);
+  border-color: rgba(245, 243, 255, 0.12);
+}
+.prose.sp-prose blockquote {
+  color: var(--sp-text2);
+  border-color: rgba(179, 155, 255, 0.4);
+}
+.prose.sp-prose hr {
+  border-color: rgba(245, 243, 255, 0.12);
+}
+
 
 
 

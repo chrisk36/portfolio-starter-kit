@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation'
 import { CustomMDX } from 'app/components/mdx'
 import { formatDate, getBlogPosts } from 'app/blog/utils'
 import { baseUrl } from 'app/sitemap'
+import SpaceBackdrop from 'app/components/SpaceBackdrop'
+import SpaceDecor from 'app/components/SpaceDecor'
 
 type PageProps = {
   params: Promise<{ slug: string }>
@@ -55,40 +57,45 @@ export default async function Blog({ params }: PageProps) {
   }
 
   return (
-    <section>
-      <script
-        type="application/ld+json"
-        suppressHydrationWarning
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'BlogPosting',
-            headline: post.metadata.title,
-            datePublished: post.metadata.publishedAt,
-            dateModified: post.metadata.publishedAt,
-            description: post.metadata.summary,
-            image: post.metadata.image
-              ? `${baseUrl}${post.metadata.image}`
-              : `/og?title=${encodeURIComponent(post.metadata.title)}`,
-            url: `${baseUrl}/blog/${post.slug}`,
-            author: {
-              '@type': 'Person',
-              name: 'My Portfolio',
-            },
-          }),
-        }}
-      />
-      <h1 className="title font-semibold text-2xl tracking-tighter">
-        {post.metadata.title}
-      </h1>
-      <div className="flex justify-between items-center mt-2 mb-8 text-sm">
-        <p className="text-sm text-neutral-600 dark:text-neutral-400">
+    <>
+      {/* Same fixed space backdrop + side decor as the homepage — for continuity.
+          Both are position:fixed, so they're identical on every page regardless of length. */}
+      <SpaceBackdrop />
+      <SpaceDecor />
+      <section className="sp-article-wrap">
+        <script
+          type="application/ld+json"
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'BlogPosting',
+              headline: post.metadata.title,
+              datePublished: post.metadata.publishedAt,
+              dateModified: post.metadata.publishedAt,
+              description: post.metadata.summary,
+              image: post.metadata.image
+                ? `${baseUrl}${post.metadata.image}`
+                : `/og?title=${encodeURIComponent(post.metadata.title)}`,
+              url: `${baseUrl}/blog/${post.slug}`,
+              author: {
+                '@type': 'Person',
+                name: 'My Portfolio',
+              },
+            }),
+          }}
+        />
+        <p className="sp-article-meta">
+          <span className={`sp-article-cat sp-article-cat-${post.metadata.category}`}>
+            {post.metadata.category}
+          </span>
           {formatDate(post.metadata.publishedAt)}
         </p>
-      </div>
-      <article className="prose">
-        <CustomMDX source={post.content} />
-      </article>
-    </section>
+        <h1 className="sp-article-title">{post.metadata.title}</h1>
+        <article className="prose sp-prose">
+          <CustomMDX source={post.content} />
+        </article>
+      </section>
+    </>
   )
 }
