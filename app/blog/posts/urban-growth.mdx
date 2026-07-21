@@ -39,16 +39,14 @@ From the raw geometries we engineered six families of urban-structure features: 
 
 We compared a linear baseline (OLS / Ridge / Lasso) against nonlinear tree-based models:
 
-<Table
-  data={{
-    headers: ["Model", "Test R²", "Test RMSE"],
-    rows: [
-      ["OLS / Ridge / Lasso", "~0.214", "~0.071"],
-      ["XGBoost (Optuna-tuned)", "0.290", "0.067"],
-      ["Random Forest", "0.299", "0.067"],
-    ],
-  }}
-/>
+<table>
+  <thead><tr><th>Model</th><th>Test R²</th><th>Test RMSE</th></tr></thead>
+  <tbody>
+    <tr><td>OLS / Ridge / Lasso</td><td>~0.214</td><td>~0.071</td></tr>
+    <tr><td>XGBoost (Optuna-tuned)</td><td>0.290</td><td>0.067</td></tr>
+    <tr><td>Random Forest</td><td>0.299</td><td>0.067</td></tr>
+  </tbody>
+</table>
 
 The ~7-point R² gain from tree-based models over linear regression confirmed meaningful nonlinearities and feature interactions. Random Forest slightly outperformed XGBoost on test data but showed more train/test overfitting, typical for deep forests.
 
