@@ -10,7 +10,10 @@ export default function MainMenu() {
       new Date(a.metadata.publishedAt).getTime()
   )
 
-  const highlights = allPosts.slice(0, 6)
+  const TV_SLUGS = ['alien-garden', 'submarine-swim-scene', 'sudo-buddy', 'roomies', 'atelic']
+  const highlights = TV_SLUGS
+    .map(slug => allPosts.find(p => p.slug === slug))
+    .filter((p): p is NonNullable<typeof p> => p != null)
 
   return (
     <>

@@ -2,15 +2,16 @@
 title: "Leaflet"
 publishedAt: "2025-09-14"
 category: "code"
-summary: "A community-driven mobile app that centralizes outdoor exploration by combining discovery, social interaction, and gamified experiences."
+summary: "A community-driven outdoor exploration app built at HackMIT 2025 — I designed the visual identity, map interface, and custom animations for a social location-discovery experience."
 image: "/images/leaflet/leaflet-still.jpg"
 video: "/images/leaflet/leaflet-showcase.mp4"
 ---
 
 # Leaflet
 
-Leaflet is a community-driven mobile app designed to centralize outdoor exploration. The project was built during **HackMIT 2025** and focuses on making it easier for people to discover, save, and share outdoor locations with friends in a social, interactive way.
+Leaflet is a social mobile app for outdoor exploration built during **HackMIT 2025**. Users discover trails and parks sourced from the National Park Service, follow friends' adventures, rank locations, and compete on a leaderboard for most active explorer.
 
+My role was design and frontend interactivity. The team handled backend infrastructure and API integration; I was responsible for the app's visual identity and making the experience feel polished and alive.
 
 ## Visual Walkthrough
 
@@ -22,74 +23,25 @@ Leaflet is a community-driven mobile app designed to centralize outdoor explorat
     loop
     muted
     playsInline
-    style={{
-      width: "100%",
-      maxWidth: "360px",
-      borderRadius: "16px",
-    }}
+    style={{ width: "100%", maxWidth: "360px", borderRadius: "16px" }}
   />
 </div>
 
-## Inspiration
+## What I Built
 
-While visiting a new area over the summer, we noticed how fragmented outdoor information is. Finding trails or hikes meant bouncing between Google Maps, blogs, and scattered review sites — none of which provided a complete or social experience.
+I owned the full visual layer of the app:
 
-There was no single place where users could easily explore outdoor locations, track where friends had been, or share notes and recommendations. That gap inspired Leaflet.
-
-Leaflet aims to make outdoor exploration more connected by turning locations into shared experiences rather than isolated searches.
-
-## What Leaflet Does
-
-Leaflet makes exploring the outdoors simple, social, and engaging. Users can:
-
-- Browse outdoor locations sourced from the National Park Service
-- View detailed information including descriptions and images
-- Rank and compare locations, generating a unique numerical score
-- Follow friends and see their recent adventures
-- Like, comment on, and discuss locations
-- Bookmark places they want to visit
-- Discover nearby trails and parks through an interactive map
-- Compete on a leaderboard that highlights the most active explorers
-
-The goal is to transform outdoor discovery into a shared, living map shaped by the community.
+- **Visual identity** — defined the color palette, typography, and overall aesthetic tone across all screens
+- **Map interface** — designed and implemented custom map pins, color logic, and interaction patterns using the Google Maps API to make location discovery feel native to the app rather than generic
+- **Animations** — built a custom loading sequence and added micro-animations and transitions throughout to smooth navigation and reinforce user actions
+- **Core screen design** — shaped the layout and interaction patterns for the key exploration, social, and ranking flows
 
 ## How We Built It
 
-Leaflet was built as a mobile-first application.
-
-- **Frontend:** Expo Go and React Native
-- **Backend:** Firebase (Firestore Database + Authentication)
-- **Design:** Figma
+- **Frontend:** Expo Go, React Native
+- **Backend:** Firebase (Firestore + Authentication)
 - **APIs:** National Park Service API, Google Maps API
-
-We began by mapping out the app’s core flows and visual design in Figma, then implemented a flexible backend using Firebase to support user authentication, relationships, and data storage.
-
-To populate the app with real locations, we fetched and pre-processed data from the National Park Service API. This data was integrated as trails, hikes, and nature spots that users could interact with and rank.
-
-On the frontend, we implemented core features including authentication, ranking, liking, commenting, and social feeds. We also customized Google Maps interactions with unique map pins and visual styling to create a more immersive experience.
-
-## Personal Contribution
-
-**Christian**  
-Focused on design and interactivity. I shaped the app’s visual identity, refined the color palette and theme, added animations (including a custom loading sequence), and designed much of the map interface using custom pins, colors, and interactions. My work emphasized clarity, polish, and an engaging user experience.
-
-## Challenges
-
-One early challenge was solidifying the project idea. We addressed this by reflecting on our own experiences and identifying gaps in the tools we personally used for outdoor exploration.
-
-Technically, this was our first time working with the Google Maps API, and implementing custom map markers proved challenging. Additionally, many of us were new to Firebase, making backend integration and data modeling more complex than expected.
-
-## Accomplishments
-
-We’re proud of building a complete, functional mobile app with a polished frontend and a scalable backend. In particular, we’re proud of how we structured user relationships and location data to support social interaction while keeping the system organized and maintainable.
-
-## What We Learned
-
-This project taught us how to collaborate effectively using version control and divide responsibilities based on individual strengths. It was also our first experience building a full-stack mobile application as a team, which strengthened both our technical and communication skills.
-
-## What’s Next
-
-Future improvements include expanding the friending system (such as discovering friends through contacts), enhancing gamification mechanics, and refining the leaderboard to further encourage exploration and engagement.
+- **Design:** Figma
 
 ## Links
 

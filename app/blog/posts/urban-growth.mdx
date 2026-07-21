@@ -10,6 +10,8 @@ image: "/images/urban-growth/ntl-growth-map.png"
 
 Team project for **CIS 5450: Big Data Analytics** at Penn, with Cindy Li, Sarah Ling, and Tianyi Gu.
 
+I owned the spatial data pipeline — building the OSM extraction and `geopandas.sjoin` workflow, computing VIIRS zonal statistics with `rasterstats`, and designing the entropy-based land-use features. I also ran the final SHAP analysis and led the modeling comparison across OLS, XGBoost, and Random Forest.
+
 ## Research Question
 
 To what extent can a neighborhood's physical structure — road density, building density, land-use mix, points of interest — explain or predict its economic growth over time?
@@ -76,3 +78,13 @@ We used two complementary approaches to keep the feature space efficient: pairwi
   playsInline
   style={{ width: "100%", borderRadius: "12px", marginTop: "16px" }}
 />
+
+## Slides
+
+<div style={{ width: "100%", lineHeight: 0 }}>
+  <iframe
+    src="https://docs.google.com/presentation/d/15mJKaeLfJ0csPmVnomh8TCnTHIjUWBP8R5m_GQUmQnY/embed?start=false&loop=false&delayms=3000"
+    style={{ width: "100%", aspectRatio: "16/9", border: 0, borderRadius: "10px", display: "block" }}
+    allowFullScreen
+  />
+</div>

@@ -3,7 +3,7 @@ title: "HitScanner — A Music Analytics Platform"
 publishedAt: "2026-05-08"
 category: "code"
 summary: "A full-stack database systems project connecting Spotify audio features with 65+ years of Billboard chart data, with query-optimized backend infrastructure deployed live on Vercel/Supabase."
-image: "/images/hitscanner/hitscanner-screenshot.jpg"
+image: "/images/hitscanner/cover.jpg"
 video: "/images/hitscanner/hitscanner-demo.mp4"
 ---
 
@@ -11,24 +11,36 @@ video: "/images/hitscanner/hitscanner-demo.mp4"
 
 Team project for **CIS 4500: Database Systems** at Penn (Group 48), with Juan, Brian, and Ishani. Live at [hit-scanner.xyz](https://hit-scanner.xyz).
 
+I led frontend development and the query optimization pipeline — building the Next.js application, designing the five drill-down query categories, and engineering the RPC function layer that serves expensive cross-table joins from Supabase with low latency.
+
 ## The Problem
 
-Artists, producers, and listeners often want to understand what makes a song successful, but audio characteristics and chart performance live on separate platforms and music trends shift too much to compare by hand.
+Artists, producers, and listeners want to understand what makes a song successful, but audio characteristics and chart performance live on separate platforms — and music trends shift too much to compare by hand across 65 years of data.
 
 ## What We Built
 
-HitScanner is an interactive analytics platform that joins **Spotify audio features** (danceability, energy, valence, tempo, ~114,000 songs across 114 genres) with the **Billboard Hot 100** (weekly chart entries from 1958–2024, ~330,000 records, 24,000+ unique songs), so users can search songs and artists, see chart history alongside audio data, and explore how hit-song characteristics have shifted across decades and genres.
+HitScanner joins **Spotify audio features** (~114,000 songs across 114 genres) with the **Billboard Hot 100** (weekly entries from 1958–2024, ~330,000 records, 24,000+ unique songs) into an interactive analytics platform. Users can search songs and artists, see chart history alongside audio data, and explore how hit-song characteristics have shifted across decades and genres.
 
-The product ships five drill-down categories — all-time dance hits, top charting, big movers, song analysis, and sound by the decade — backed by 10 optimized queries, including tools like a similar-song finder, "hit-sounding flops," and a "would this chart?" predictor.
+The product ships five drill-down categories — all-time dance hits, top charting, big movers, song analysis, and sound by the decade — backed by 10 optimized queries, including a similar-song finder, "hit-sounding flops" discovery, and a "would this chart?" predictor.
 
 <video
   src="/images/hitscanner/hitscanner-demo.mp4"
   controls
   playsInline
   preload="metadata"
-  poster="/images/hitscanner/hitscanner-screenshot.jpg"
+  poster="/images/hitscanner/cover.jpg"
   style={{ width: "100%", borderRadius: "12px" }}
 />
+
+## Slides
+
+<div style={{ width: "100%", lineHeight: 0 }}>
+  <iframe
+    src="https://docs.google.com/presentation/d/1YDDdPr8Q6dX9nR3PnZ3EN3Drnen7rLqnHFE64Ru5O3o/embed?start=false&loop=false&delayms=3000"
+    style={{ width: "100%", aspectRatio: "16/9", border: 0, borderRadius: "10px", display: "block" }}
+    allowFullScreen
+  />
+</div>
 
 ## Data Cleaning & Schema
 

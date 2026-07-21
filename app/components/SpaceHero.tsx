@@ -284,6 +284,15 @@ export default function SpaceHero({ highlights }: SpaceHeroProps) {
           g.add(s)
         })
         g.userData = { start, end, speed, t: -delay }
+        // Comets are purely decorative background streaks — render them before all scene
+        // objects so planets/asteroids always composite on top, regardless of z position.
+        g.traverse((o: any) => {
+          if (o.isMesh) {
+            o.renderOrder = -1
+            o.material.depthTest = false
+            o.material.depthWrite = false
+          }
+        })
         scene.add(g)
         return g
       }

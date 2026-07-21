@@ -1,56 +1,34 @@
 ---
-title: "SphereUs — Influencer Overlap Analysis (Penn Spark x SphereUs)"
+title: "SphereUs — Influencer Overlap Analysis"
 publishedAt: "2025-12-04"
 category: "design"
-summary: "A workflow + dashboard redesign that helps marketers understand creator audience overlap and optimize multi-touch influencer campaigns."
+summary: "A workflow and dashboard redesign for SphereUs that helps marketers instantly understand creator audience overlap and make smarter multi-touch influencer campaign decisions."
 image: "/images/sphere-us/analysis-dashboard.png"
 ---
 
 # SphereUs — Influencer Overlap Analysis
 
-SphereUs is an influencer research and analytics platform that helps brands and agencies optimize influencer marketing by understanding how creators’ audiences overlap and how to balance incremental reach vs. frequency.
+SphereUs is an influencer research and analytics platform that helps brands and agencies understand how creator audiences overlap — so they can balance incremental reach against conversion-driving frequency in multi-touch campaigns.
 
-## Context
-
-**Program:** Penn Spark x SphereUs (Fall 2025 Client Project) 
-**My role:** Full-Stack Developer
+**Program:** Penn SPARK × SphereUs · Fall 2025 Client Project  
+**My role:** Full-Stack Developer & UX contributor
 
 ## The Problem
 
-Influencer campaigns don’t work as a single-touch funnel — brands often need multiple touches, but they don’t have a clear way to understand whether multiple creators are reaching new people or repeatedly hitting the same audience.
+Influencer campaigns rarely work as single-touch funnels, but brands don't have clear tools to tell whether multiple creators are reaching new audiences or repeatedly hitting the same people. Teams can usually identify which creators are popular — but not whether a given set will be redundant. That uncertainty turns campaign planning into guesswork.
 
-In particular, teams can usually tell which creators are popular, but not how their audiences overlap or whether a set of creators will be redundant — which turns campaign planning into guesswork.
+## What I Contributed
 
-## The Solution
+I built the overlap analysis feature end-to-end and contributed to the dashboard's UX structure. The design goal was making overlap data *instantly actionable* — not just showing a percentage, but surfacing the context and next steps a marketer actually needs.
 
-SphereUs supports overlap analysis so teams can:
-- view overlap between creators
-- identify redundant audiences to avoid waste
-- balance incremental reach and conversion-driving frequency
-- track audience growth and campaign impact
+Key decisions I made:
+- Structure the dashboard to lead with the most important metric (overall overlap %) before showing breakdowns by creator
+- Generate contextual recommendations alongside the overlap score, not separately
+- Scope the campaign goals input to drive the right metrics and creator types from the start of the flow
 
-## What We Built / What I Contributed
+## 1. Campaign Goals Screen
 
-On this project, we focused on making overlap analysis *instantly understandable* and *actionable* for marketers:
-- A UI that clearly communicates the purpose + value of overlap analysis
-- A workflow grounded in real marketer goals and planning behavior
-- A dashboard layout that prioritizes “what matters first” and reduces cognitive load
-
-## Workflow Redesign
-
-The original flow made it hard to understand what the overlap percentage meant and what action to take next.
-
-### New workflow
-In the redesigned flow:
-- users input campaign goals (reach vs. conversion, etc.)
-- users select creators to compare
-- SphereUs generates overlap percentage **plus** context + action items
-- the key focus is giving meaning to the overlap number (not just showing it)
-
-## Key Screens (add images as you export them)
-
-### 1) Campaign Goals
-Explain how this reduces confusion during setup and drives the right metrics + creator types earlier in the flow.
+Before seeing any overlap data, users define their campaign objective — reach vs. conversion vs. awareness. This single input changes which metrics the dashboard emphasizes and which creator types the system recommends, reducing confusion and keeping teams aligned on what success looks like.
 
 <img
   src="/images/sphere-us/campaign-goals.png"
@@ -58,11 +36,9 @@ Explain how this reduces confusion during setup and drives the right metrics + c
   style={{ width: "100%", borderRadius: "10px" }}
 />
 
-### 2) Analysis Dashboard
-This dashboard is structured to speed up decisions:
-- overview first (key metrics like overall %, total/unique/shared followers)
-- then creators (quick add/remove testing)
-- then insights (actionable recommendations)
+## 2. Analysis Dashboard
+
+The dashboard is structured to speed up decisions: overview first (overall overlap %, total/unique/shared followers), then individual creator breakdowns (quick add/remove for testing combinations), then actionable insights.
 
 <img
   src="/images/sphere-us/analysis-dashboard.png"
@@ -72,20 +48,17 @@ This dashboard is structured to speed up decisions:
 
 ## Tech Stack
 
-(Add specifics here once you confirm. Example:)
-- Frontend: (Next.js / React / etc.)
-- Backend: (Node / Python / etc.)
-- Data/infra: (Postgres / BigQuery / etc.)
-- Design: Figma
+- **Frontend:** React, Tailwind CSS
+- **Backend:** Node.js, Express
+- **Database:** PostgreSQL
+- **Design:** Figma
 
 ## Full Slide Presentation
 
-<div style={{ width: "100%", height: "600px", borderRadius: "10px", overflow: "hidden" }}>
+<div style={{ width: "100%", lineHeight: 0 }}>
   <iframe
-    src="https://docs.google.com/presentation/d/1tGbXFn4q57Qr9XeIWPkc-icFtEshAe-_JaUQQPWiXEo/edit?slide=id.g1c2c7c0bf6d_0_0#slide=id.g1c2c7c0bf6d_0_0"
-    width="100%"
-    height="100%"
-    style={{ border: "0" }}
+    src="https://docs.google.com/presentation/d/1tGbXFn4q57Qr9XeIWPkc-icFtEshAe-_JaUQQPWiXEo/embed?start=false&loop=false&delayms=3000"
+    style={{ width: "100%", aspectRatio: "16/9", border: 0, borderRadius: "10px", display: "block" }}
     allowFullScreen
   />
 </div>

@@ -242,7 +242,7 @@ table {
   left: auto;
   width: 220px;
   height: 170px;
-  z-index: 3;
+  z-index: 0; /* behind canvas so opaque TV pixels occlude it */
   filter: drop-shadow(0 0 6px rgba(179, 155, 255, 0.25));
 }
 
@@ -719,6 +719,21 @@ html { scroll-behavior: smooth; }
 
 /* Light-theme the MDX prose so it reads over the dark space backdrop, regardless of the
    viewer's system color scheme. */
+
+/* Override every sugar-high token color for the dark prose context so they're always
+   readable regardless of the viewer's system color scheme. */
+.prose.sp-prose {
+  --sh-identifier: #e6e1f9;
+  --sh-class:      #79c0ff;
+  --sh-keyword:    #ff7b72;
+  --sh-string:     #4dc9be;
+  --sh-property:   #ffa657;
+  --sh-entity:     #ffa657;
+  --sh-sign:       #9aa0b4;
+  --sh-comment:    #7a7899;
+  --sh-jsxliterals:#b392f0;
+}
+
 .prose.sp-prose p,
 .prose.sp-prose li {
   color: rgba(245, 243, 255, 0.82);
