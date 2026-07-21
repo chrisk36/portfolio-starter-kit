@@ -797,15 +797,8 @@ export default function SpaceHero({ highlights }: SpaceHeroProps) {
       </svg>
 
       <div className="sp-hero-text">
-        <div className="sp-phase-track">
-          <div className="sp-phase sp-phase-active">
-            <div className="sp-phase-lit" style={{ clipPath: PHASE_CLIPS[phase] }} />
-          </div>
-          <span className="sp-phase-label">welcome aboard</span>
-        </div>
-        <p className="sp-eyebrow">— MISSION CONTROL —</p>
-        <h1 className="sp-title">Hi, I&apos;m Christian</h1>
-        <p className="sp-sub">CS × Design &nbsp;·&nbsp; University of Pennsylvania</p>
+        <h1 className="sp-title">Hi, I&apos;m Christian!</h1>
+        <p className="sp-sub">CS &nbsp;·&nbsp; AI &nbsp;·&nbsp; University of Pennsylvania</p>
         <div className="sp-links">
           <a className="sp-link" href="/resume/Christian%20Kim%20Resume.pdf" target="_blank" rel="noopener noreferrer">
             <svg viewBox="0 0 24 24" aria-hidden><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9l-7-7zm0 2 5 5h-5V4zM8 13h8v1.6H8zm0 3.4h8V18H8z" /></svg>
@@ -825,11 +818,11 @@ export default function SpaceHero({ highlights }: SpaceHeroProps) {
           </a>
         </div>
         <p className="sp-bio">
-          Junior at Penn studying CS with a minor in Design. I build things at the
-          intersection of software and interactive experience — solo and with teams —
-          from UE5 games and mobile apps to on-device ML. I&apos;ve researched
-          light-responsive soft robotics at the National University of Singapore, placed
-          3rd internationally in the AMA product design competition, and care a lot about
+          Junior at Penn studying CS with an AI concentration. I build across the
+          stack — TinyML systems, mobile apps, full-stack dashboards, and UE5 games.
+          I&apos;ve researched light-responsive soft robotics at the National University
+          of Singapore, led a team to 3rd place at the AMA International Case
+          Competition, and shipped production apps at Penn SPARK. I care a lot about
           how things feel to use.
         </p>
       </div>
