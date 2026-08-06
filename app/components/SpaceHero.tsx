@@ -827,7 +827,7 @@ export default function SpaceHero({ highlights }: SpaceHeroProps) {
           </a>
         </div>
         <p className="sp-bio">
-          Junior at Penn studying CS with an AI concentration. I build across the
+          Junior at Penn studying CS with a Computer Vision concentration. I build across the
           stack — TinyML systems, mobile apps, full-stack dashboards, and UE5 games.
           I&apos;ve researched light-responsive soft robotics at the National University
           of Singapore, led a team to 3rd place at the AMA International Case
