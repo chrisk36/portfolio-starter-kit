@@ -36,13 +36,16 @@ Each stage is purpose-built:
 
 ## Results
 
-| Metric | Before | After |
-|--------|--------|-------|
-| Processing time per aircraft | ~3 days | < 1 hour |
-| Time reduction | — | **98%** |
-| Cost per aircraft | ~$500 | ~$25 |
-| Cost reduction | — | **85%** |
-| Accuracy vs. hand-built references | — | **94.4%** (1,272 parameters checked) |
+<Table data={{
+  headers: ["Metric", "Before", "After"],
+  rows: [
+    ["Processing time per aircraft", "~3 days", "< 1 hour"],
+    ["Time reduction", "—", "98%"],
+    ["Cost per aircraft", "~$500", "~$25"],
+    ["Cost reduction", "—", "85%"],
+    ["Accuracy vs. hand-built references", "—", "94.4% (1,272 parameters)"],
+  ]
+}} />
 
 - Covered **15 documents** across **10 distinct structural formats**
 - Surfaced **14 pre-existing silent defects** in reference files — issues the system caught that manual review had missed
