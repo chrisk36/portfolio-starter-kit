@@ -1,0 +1,78 @@
+---
+title: "OEM File Digestor — Avionica Internship"
+publishedAt: "2026-08-12"
+category: "code"
+summary: "Solo-built a 5-stage AI agent pipeline that converts aircraft engineering documents into structured flight data parameter databases — cutting processing time by 98% and per-aircraft cost by 85%."
+image: "/images/avionica/cover.jpg"
+---
+
+# OEM File Digestor
+
+**AI Software Engineer Intern · May – Aug 2026**
+
+Aircraft flight data recorders depend on precise parameter databases that describe how raw sensor signals map to engineering values — units, scaling, bit positions, all of it. Traditionally, building one of these from manufacturer documentation meant weeks of manual work: reading through dense technical PDFs, cross-referencing tables, and entering values by hand.
+
+I built a system to automate that process end to end.
+
+---
+
+## What I Built
+
+The **OEM File Digestor** is a five-stage agentic pipeline that ingests raw aircraft engineering documents and outputs fully structured parameter databases — matching the format used by flight data analysis tools. Built solo over approximately 9 weeks.
+
+```
+Survey → Extract (concurrent) → Dedup → Join → Export
+```
+
+Each stage is purpose-built:
+
+1. **Survey** — Scans the document structure to identify which sections contain relevant parameter data. Avoids processing pages with no useful content.
+2. **Extract (concurrent)** — Windowed extraction across all relevant pages, run concurrently across document sections using structured tool use and prompt caching. Handles PDFs up to 1,000+ pages.
+3. **Dedup** — Resolves duplicate parameter entries across overlapping windows, preserving the most complete representation of each field.
+4. **Join** — Merges outputs across document sections into a unified parameter set, with conflict resolution for fields defined in multiple places.
+5. **Export** — Runs config resolution, applies compliance checks against regulatory requirements, and outputs the final database in the target format.
+
+---
+
+## Results
+
+| Metric | Before | After |
+|--------|--------|-------|
+| Processing time per aircraft | ~3 days | < 1 hour |
+| Time reduction | — | **98%** |
+| Cost per aircraft | ~$500 | ~$25 |
+| Cost reduction | — | **85%** |
+| Accuracy vs. hand-built references | — | **94.4%** (1,272 parameters checked) |
+
+- Covered **15 documents** across **10 distinct structural formats**
+- Surfaced **14 pre-existing silent defects** in reference files — issues the system caught that manual review had missed
+- Delivered under **$30 per complete document run**
+
+---
+
+## Technical Approach
+
+**Stack:** Python · Anthropic API (tool use, structured outputs, concurrent requests) · PDF processing
+
+The core challenge was heterogeneity. OEM documents vary wildly in structure — some use tables, some use prose descriptions, some mix both, and page layouts aren't consistent even within a single document. A fixed rule-based extractor would break constantly; a naive LLM prompt would hallucinate or miss fields.
+
+The solution was a **hybrid AI/deterministic architecture**:
+- LLM handles interpretation: reading context, resolving ambiguity, inferring values from prose
+- Deterministic logic handles structure: schema validation, merge rules, conflict resolution, compliance checks
+- Concurrency via bounded parallel extraction keeps costs manageable without blowing the API budget
+
+Prompt caching brought the per-run cost down from what would otherwise be prohibitive. Structured tool use enforced schema-valid outputs at extraction time rather than trying to parse free-text afterwards.
+
+**Solo project.** 977 commits across ~9 weeks.
+
+---
+
+## Engineering Depth
+
+This was primarily a systems design and AI integration problem, not a "prompt the model and format the output" problem. The pipeline had to be robust enough to handle malformed inputs, gracefully degrade when sections were unreadable, and remain auditable — every extracted value traceable back to a source page.
+
+The 14 silent defects found in existing reference files were a side effect of building proper validation into the export stage. Running the pipeline on documents that had already been processed manually turned up errors in the references themselves — a strong signal the system was doing real work.
+
+---
+
+**Built with:** Python · Anthropic Claude API · Structured tool use · Bounded concurrency · PDF parsing
